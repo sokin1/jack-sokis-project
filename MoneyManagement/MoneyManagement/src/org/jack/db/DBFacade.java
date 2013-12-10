@@ -1,6 +1,7 @@
 package org.jack.db;
 
 import org.jack.controller.message.ControlMessage;
+import org.jack.controller.message.ResponseControlMessage;
 
 public class DBFacade {
 
@@ -19,9 +20,9 @@ public class DBFacade {
 		return instance;
 	}
 	
-	public void sendRequest( ControlMessage message ) {
+	public ResponseControlMessage sendRequest( ControlMessage message ) {
 		if( message.getType() == 10 ) {
-			dbInterface.getRequest( message );
+			return dbInterface.getRequest( message );
 		}
 	}
 }

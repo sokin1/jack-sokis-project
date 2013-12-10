@@ -2,6 +2,7 @@ package org.jack.controller;
 
 
 import org.jack.controller.message.ControlMessage;
+import org.jack.controller.message.ResponseControlMessage;
 import org.jack.controller.message.UserControlMessage;
 import org.jack.db.DBFacade;
 import org.jack.dto.user.User;
@@ -37,14 +38,19 @@ public class UserController extends ControllerBase {
 		return currentUser;
 	}
 	
-	public User createUser( UserControlMessage message ) {
-		ControlMessage createUser = new UserControlMessage(
-				10,
-				"Jack",
-				"sokin1",
-				"wornr123");
-		dbFacade.sendRequest( createUser );
-		return new User();
+	public ControlMessage createUser( UserControlMessage message ) {
+		if( validity( message ) ) {
+			ResponseControlMessage responseMessage = dbFacade.sendRequest( message );
+			return responseMessage;
+		} else {
+			//return new ResponseControlMessage( 100 );
+		}
+
+		
+	}
+	
+	public boolean validity( UserControlMessage message ) {
+		return true;
 	}
 	
 	public User login( UserControlMessage message ) {

@@ -3,6 +3,7 @@ package org.jack.db;
 import java.sql.*;
 
 import org.jack.controller.message.ControlMessage;
+import org.jack.controller.message.ResponseControlMessage;
 
 public class DatabaseInterface {
 
@@ -46,27 +47,33 @@ public class DatabaseInterface {
 		return true;
 	}
 
-	public void getRequest( ControlMessage message ) {
+	/*
+	 * Combine getRequest and handleUserRequest
+	 */
+	public ResponseControlMessage getRequest( ControlMessage message ) {
 		if( checkValidity() ) {
 			int jobType = message.getType() / 10;
 			switch( jobType ) {
 			case 1:
-				handleUserRequest( message );
-				break;
+				return handleUserRequest( message );
+			default:
+				return new ResponseControlMessage( 100, "Fail", "Add" );
 			}
 		}
 	}
 
-	public void handleUserRequest( ControlMessage message ) {
+	public ResponseControlMessage handleUserRequest( ControlMessage message ) {
 		int specificJobType = message.getType() % 10;
 		switch( specificJobType ) {
 		case 0:
-			runQuery( message.getMessageForDB() );
-			break;
+			return runQuery( message.getMessageForDB() );
+		
+		default:
+			return new ResponseControlMessage( 100, "Fail", "Add" );
 		}
 	}
 
-	private void runQuery( String query ) {
+	private ResponseControlMessage runQuery( String query ) {
 		try {
 			statement = connection.createStatement();
 
@@ -75,9 +82,11 @@ public class DatabaseInterface {
 			statement.close();
 			connection.commit();
 			connection.close();
+			return new ResponseControlMessage( 101, "Succeed", "Add" );
 		} catch( Exception e ) {
 			System.err.println( e.getClass().getName() + "[runQuery] : " + e.getMessage() );
 			System.exit( 0 );
+			return new ResponseControlMessage( 100, "Failed", "Add" );
 		}
 	}
 }
