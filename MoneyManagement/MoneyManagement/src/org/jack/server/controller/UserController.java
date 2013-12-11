@@ -31,6 +31,24 @@ public class UserController extends ControllerBase {
 	}
 
 	public ControlMessage doAction( ControlMessage message ) {
+		switch( message.getType() ) {
+			case ControlMessage.CREATE_USER:
+			case ControlMessage.LOGIN_USER:
+			case ControlMessage.LOGOUT_USER:
+			case ControlMessage.UPDATE_USER:
+			case ControlMessage.REMOVE_USER:
+			case ControlMessage.RETRIEVE_USER:
+				
+			case ControlMessage.CREATE_MONEY:
+			case ControlMessage.UPDATE_MONEY:
+			case ControlMessage.REMOVE_MONEY:
+			case ControlMessage.RETRIEVE_MONEY:
+	
+			case ControlMessage.CREATE_PLAN:
+			case ControlMessage.UPDATE_PLAN:
+			case ControlMessage.REMOVE_PLAN:
+			case ControlMessage.RETRIEVE_PLAN:
+		}
 		return new ResponseControlMessage();
 	}
 

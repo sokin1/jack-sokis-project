@@ -6,7 +6,7 @@ import org.jack.server.controller.message.ResponseControlMessage;
 import org.jack.server.core.data.moneyinfo.MoneyInfo;
 
 public class MoneyInfoController extends ControllerBase {
-
+	
 	private static MoneyInfoController instance = null;
 	
 	MoneyInfo moneyInfo;

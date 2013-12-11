@@ -14,9 +14,7 @@ public class Acceptor {
 	private static Acceptor instance = null;
 
 	private UserController currentUser;
-
 	private MoneyInfoController moneyInfo;
-
 	private MoneyPlanController moneyPlan;
 	
 	/*

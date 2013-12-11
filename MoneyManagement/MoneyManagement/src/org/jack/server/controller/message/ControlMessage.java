@@ -12,10 +12,12 @@ public class ControlMessage {
 	public static final int CREATE_MONEY = 20;
 	public static final int UPDATE_MONEY = 21;
 	public static final int REMOVE_MONEY = 22;
+	public static final int RETRIEVE_MONEY = 23;
 
 	public static final int CREATE_PLAN = 30;
 	public static final int UPDATE_PLAN = 31;
 	public static final int REMOVE_PLAN = 32;
+	public static final int RETRIEVE_PLAN = 33;
 
 	public static final int CREATE_USER_SUCCEED = 101;
 	public static final int CREATE_USER_FAIL = 100;
@@ -36,6 +38,8 @@ public class ControlMessage {
 	public static final int UPDATE_MONEY_FAIL = 210;
 	public static final int REMOVE_MONEY_SUCCEED = 221;
 	public static final int REMOVE_MONEY_FAIL = 220;
+	public static final int RETRIEVE_MONEY_SUCCEED = 231;
+	public static final int RETRIEVE_MONEY_FAIL = 230;
 
 	public static final int CREATE_PLAN_SUCCEED = 301;
 	public static final int CREATE_PLAN_FAIL = 300;
@@ -43,6 +47,8 @@ public class ControlMessage {
 	public static final int UPDATE_PLAN_FAIL = 310;
 	public static final int REMOVE_PLAN_SUCCEED = 321;
 	public static final int REMOVE_PLAN_FAIL = 320;
+	public static final int RETRIEVE_PLAN_SUCCEED = 331;
+	public static final int RETRIEVE_PLAN_FAIL = 330;
 
 	protected int type;
 	
