@@ -6,7 +6,7 @@ import java.util.List;
 import org.jack.server.core.data.moneyflow.Earning;
 import org.jack.server.core.data.moneyflow.Expense;
 import org.jack.server.core.data.moneyflow.MoneyFlow;
-import org.jack.server.dto.moneyflow.*;
+import org.jack.server.core.data.moneyflow.*;
 
 public class MoneyInfo {
 

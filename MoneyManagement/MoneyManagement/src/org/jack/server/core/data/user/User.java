@@ -2,7 +2,7 @@ package org.jack.server.core.data.user;
 
 import org.jack.server.core.data.moneyinfo.MoneyInfo;
 import org.jack.server.core.data.moneyinfo.MoneyPlan;
-import org.jack.server.dto.moneyinfo.*;
+import org.jack.server.core.data.moneyinfo.*;
 
 public class User {
 

@@ -8,7 +8,7 @@ import java.util.List;
 import org.jack.server.core.data.moneyflow.FutureEarning;
 import org.jack.server.core.data.moneyflow.FutureExpense;
 import org.jack.server.core.data.moneyflow.MoneyFlow;
-import org.jack.server.dto.moneyflow.*;
+import org.jack.server.core.data.moneyflow.*;
 
 public class MoneyPlan {
 
