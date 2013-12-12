@@ -5,48 +5,58 @@ import org.jack.server.controller.MoneyInfoController;
 import org.jack.server.controller.MoneyPlanController;
 import org.jack.server.controller.UserController;
 import org.jack.server.controller.message.ControlMessage;
+import org.jack.server.controller.message.ResponseControlMessage;
 import org.jack.server.db.DBFacade;
+
+import java.io.*;
+import java.net.*;
 
 /*
  * TODO: TCP connection should be made
  */
 public class Server {
 
-	private Acceptor acceptor;
+	private Acceptor acceptor = Acceptor.getInstance();
 
-	public void connectionInitialize() {
+	private ServerSocket welcomeSocket;
+	private Socket connectionSocket;
+
+	private BufferedReader request;
+	private DataOutputStream response;
+
+	public void connectionInitialize() throws Exception {
 		// Connect to network and return connected socket
-	}
+		welcomeSocket = new ServerSocket( 6789 );
+		while( true ) {
+			connectionSocket = welcomeSocket.accept();
 
-	public void initialize() {
-		connectionInitialize();
+			request = new BufferedReader( new InputStreamReader( connectionSocket.getInputStream() ) );
+			response = new DataOutputStream( connectionSocket.getOutputStream() );
 
-		acceptor = Acceptor.getInstance();
+			acceptRequests();
+		}
 	}
 
 	public Server() {
+		acceptor.setServer( this );
 		// Open handshaking port
+		try {
+			connectionInitialize();
+		} catch( Exception e ){
+			sendErrorMessage(
+				// Form error message to let clients know server issue
+				new ResponseControlMessage()
+			);
+		}
+	}
 
-		initialize();
-		if( accceptRequests() ) {
-			sendResponse();
-		} else {
-			sendErrorMessage();
-		}
+	private void acceptRequests(/*json_request*/) {
+		acceptor.invokeController();
 	}
-	
-	private boolean accceptRequests(/*json_request*/) {
-		ControlMessage message = acceptor.invokeController();
-		if( message.getType() == 99 ) {
-			return false;
-		} else {
-			return true;
-		}
+
+	private void sendResponse( ResponseControlMessage response ) {
 	}
-	
-	private void sendResponse() {
-	}
-	
-	private void sendErrorMessage() {
+
+	private void sendErrorMessage( ResponseControlMessage response ) {
 	}
 }

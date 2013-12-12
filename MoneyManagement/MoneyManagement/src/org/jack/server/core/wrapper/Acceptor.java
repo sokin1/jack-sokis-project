@@ -17,15 +17,20 @@ public class Acceptor {
 	private MoneyInfoController moneyInfo;
 	private MoneyPlanController moneyPlan;
 	
-	/*
-	 * Maybe need it at some point
-	 */
-//	private Server server;
+	private Server server;
 
 	public Acceptor() {
 		currentUser = UserController.getInstance();
 		moneyInfo = MoneyInfoController.getInstance();
 		moneyPlan = MoneyPlanController.getInstance();
+	}
+	
+	public void setServer( Server server ) {
+		this.server = server;
+	}
+
+	public Server getServer() {
+		return server;
 	}
 
 	public static Acceptor getInstance() {
@@ -34,22 +39,29 @@ public class Acceptor {
 		}
 		return instance;
 	}
+	
+	public void json_parser(/*json_request*/) {
+		// parse json and form control message
+		invokeController();
+	}
+	
+	public void json_formed( ResponseControlMessage response ) {
+		// form json and send it to server
+	}
 
 	/*
 	 * TODO: Need to separate into smaller subroutines
 	 */
-	public ControlMessage invokeController(/*json_request*/) {
+	private void invokeController(/*json_request*/) {
 		ControlMessage message = getMessage();
 		// Figure out which controller to be called from json input.
 
 		if( message instanceof UserControlMessage ) {
-			return currentUser.doAction( message );
+			currentUser.doAction( message );
 		} else if( message instanceof MoneyInfoControlMessage ) {
-			return moneyInfo.doAction( message );
+			moneyInfo.doAction( message );
 		} else if( message instanceof MoneyPlanControlMessage ) {
-			return moneyPlan.doAction( message );
-		} else {
-			return message;
+			moneyPlan.doAction( message );
 		}
 	}
 
