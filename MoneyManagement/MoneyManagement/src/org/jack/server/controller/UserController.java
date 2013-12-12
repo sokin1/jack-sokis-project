@@ -30,14 +30,22 @@ public class UserController extends ControllerBase {
 		this.currentUser = currentUser;
 	}
 
-	public ControlMessage doAction( ControlMessage message ) {
+	// TODO: Retrieve user info should be distinguished from other actions
+	public ControlMessage doAction( UserControlMessage message ) {
 		switch( message.getType() ) {
 			case ControlMessage.CREATE_USER:
+				return createUser( message );
 			case ControlMessage.LOGIN_USER:
+				return login( message );
 			case ControlMessage.LOGOUT_USER:
+				return logout( message );
+				
 			case ControlMessage.UPDATE_USER:
+				return modifyUserInfo( message );
 			case ControlMessage.REMOVE_USER:
+				return signoff( message );
 			case ControlMessage.RETRIEVE_USER:
+				setUser( retrieveUserInfo( message ) );
 				
 			case ControlMessage.CREATE_MONEY:
 			case ControlMessage.UPDATE_MONEY:
@@ -60,7 +68,7 @@ public class UserController extends ControllerBase {
 		return currentUser;
 	}
 
-	public ControlMessage createUser( UserControlMessage message ) {
+	public ResponseControlMessage createUser( UserControlMessage message ) {
 		if( validity( message ) ) {
 			ResponseControlMessage responseMessage = dbFacade.sendRequest( message );
 			return responseMessage;
@@ -73,16 +81,24 @@ public class UserController extends ControllerBase {
 		return true;
 	}
 
-	public User login( UserControlMessage message ) {
-		return new User();
+	public ResponseControlMessage login( UserControlMessage message ) {
+		return new ResponseControlMessage();
+	}
+	
+	public ResponseControlMessage logout( UserControlMessage message ) {
+		return new ResponseControlMessage();
+	}
+	
+	public ResponseControlMessage signoff( UserControlMessage message ) {
+		return new ResponseControlMessage();
 	}
 
-	public void modifyUserInfo( UserControlMessage message ) {
-		if( authenticateUser() ) {
-			apply( message );
-		} else {
-			System.out.println( "Authentication failed" );
-		}
+	public ResponseControlMessage modifyUserInfo( UserControlMessage message ) {
+		return new ResponseControlMessage();
+	}
+	
+	public User retrieveUserInfo( UserControlMessage message ) {
+		return new User();
 	}
 
 	private void apply( UserControlMessage message ) {

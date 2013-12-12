@@ -51,10 +51,10 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 		System.out.println( data.toString() );
 	}
 
-	public static void main( String args[] ) {
-		MoneyFlowTableUI launcher = new MoneyFlowTableUI();
-		launcher.setVisible( true );
-	}
+//	public static void main( String args[] ) {
+//		MoneyFlowTableUI launcher = new MoneyFlowTableUI();
+//		launcher.setVisible( true );
+//	}
 	
 	
 }
