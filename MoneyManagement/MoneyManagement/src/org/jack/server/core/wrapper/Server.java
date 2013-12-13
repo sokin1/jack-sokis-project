@@ -43,20 +43,23 @@ public class Server {
 		try {
 			connectionInitialize();
 		} catch( Exception e ){
-			sendErrorMessage(
-				// Form error message to let clients know server issue
-				new ResponseControlMessage()
-			);
+			// Form server-level error message
+			formConnectionErrorMessage();
+			// Form error message to let clients know server issue
 		}
 	}
 
 	private void acceptRequests(/*json_request*/) {
-		acceptor.invokeController();
+		// TODO : check validity
+		acceptor.json_parser();
+	}
+	
+	public void formConnectionErrorMessage() {
+		// Form json-response
+		sendResponse(/*json_response*/);
 	}
 
-	private void sendResponse( ResponseControlMessage response ) {
-	}
-
-	private void sendErrorMessage( ResponseControlMessage response ) {
+	public void sendResponse(/*json_response*/) {
+		// send response to clients
 	}
 }

@@ -42,44 +42,31 @@ public class Acceptor {
 	
 	public void json_parser(/*json_request*/) {
 		// parse json and form control message
-		invokeController();
+		
+		ControlMessage message = new ControlMessage();
+		invokeController( message );
 	}
 	
 	public void json_formed( ResponseControlMessage response ) {
 		// form json and send it to server
+		server.sendResponse();
 	}
 
 	/*
 	 * TODO: Need to separate into smaller subroutines
 	 */
-	private void invokeController(/*json_request*/) {
-		ControlMessage message = getMessage();
+	private void invokeController( ControlMessage message ) {
+
+		ResponseControlMessage response;
 		// Figure out which controller to be called from json input.
-
-		if( message instanceof UserControlMessage ) {
-			currentUser.doAction( message );
-		} else if( message instanceof MoneyInfoControlMessage ) {
-			moneyInfo.doAction( message );
-		} else if( message instanceof MoneyPlanControlMessage ) {
-			moneyPlan.doAction( message );
+		if( /*message instanceof UserControlMessage*/ ) {
+			response = currentUser.doAction( (UserControlMessage)message );
+		} else if( /*message instanceof MoneyInfoControlMessage*/ ) {
+			response = moneyInfo.doAction( (MoneyInfoControlMessage)message );
+		} else if( /*message instanceof MoneyPlanControlMessage*/ ) {
+			response = moneyPlan.doAction( (MoneyPlanControlMessage)message );
 		}
-	}
 
-	/*
-	 * json_request is unfolded here
-	 * and forms ControlMessage to be sent to controller objects
-	 */
-	public ControlMessage getMessage(/*json_request*/) {
-		String type = "USER";
-
-		if( type == "USER") {
-			return new UserControlMessage( 10, "Jack", "sokin1@Hotmail.com", "wornr123" );
-		} else if( type == "MONEYINFO") {
-			return new MoneyInfoControlMessage();
-		} else if( type == "MONEYPLAN" ) {
-			return new MoneyPlanControlMessage();
-		} else {
-			return new ResponseControlMessage();
-		}
+		json_formed( response );
 	}
 }

@@ -26,7 +26,7 @@ public class MoneyPlanController extends ControllerBase {
 		this.moneyPlan = moneyPlan;
 	}
 	
-	public ControlMessage doAction( ControlMessage message ) {
+	public ResponseControlMessage doAction( ControlMessage message ) {
 		return new ResponseControlMessage();
 	}
 	public void setMoneyPlan( MoneyPlan moneyPlan ) {

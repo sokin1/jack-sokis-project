@@ -31,7 +31,7 @@ public class UserController extends ControllerBase {
 	}
 
 	// TODO: Retrieve user info should be distinguished from other actions
-	public ControlMessage doAction( UserControlMessage message ) {
+	public ResponseControlMessage doAction( UserControlMessage message ) {
 		switch( message.getType() ) {
 			case ControlMessage.CREATE_USER:
 				return createUser( message );
