@@ -8,6 +8,8 @@ import org.jack.server.controller.message.MoneyInfoControlMessage;
 import org.jack.server.controller.message.MoneyPlanControlMessage;
 import org.jack.server.controller.message.ResponseControlMessage;
 import org.jack.server.controller.message.UserControlMessage;
+import org.jack.server.dto.InMessage;
+import org.jack.server.dto.OutMessage;
 
 public class Acceptor {
 
@@ -42,14 +44,19 @@ public class Acceptor {
 	
 	public void json_parser(/*json_request*/) {
 		// parse json and form control message
+		InMessage incomingMessage = new InMessage();
 		
+		initializeControlMessage( incomingMessage );
+	}
+	
+	private void initializeControlMessage( InMessage inMessage ) {
 		ControlMessage message = new ControlMessage();
 		invokeController( message );
 	}
 	
-	public void json_formed( ResponseControlMessage response ) {
+	private void json_formed( OutMessage outMessage ) {
 		// form json and send it to server
-		server.sendResponse();
+		server.sendResponse(/*json_response*/);
 	}
 
 	/*
@@ -59,14 +66,22 @@ public class Acceptor {
 
 		ResponseControlMessage response;
 		// Figure out which controller to be called from json input.
-		if( /*message instanceof UserControlMessage*/ ) {
+		if( message instanceof UserControlMessage ) {
 			response = currentUser.doAction( (UserControlMessage)message );
-		} else if( /*message instanceof MoneyInfoControlMessage*/ ) {
+		} else if( message instanceof MoneyInfoControlMessage ) {
 			response = moneyInfo.doAction( (MoneyInfoControlMessage)message );
-		} else if( /*message instanceof MoneyPlanControlMessage*/ ) {
+		} else if( message instanceof MoneyPlanControlMessage ) {
 			response = moneyPlan.doAction( (MoneyPlanControlMessage)message );
+		} else {
+			response = new ResponseControlMessage();
 		}
 
-		json_formed( response );
+		generateOutMessage( response );
+	}
+	
+	private void generateOutMessage( ResponseControlMessage response ) {
+		OutMessage outgoingMessage = new OutMessage();
+		
+		json_formed( outgoingMessage );
 	}
 }

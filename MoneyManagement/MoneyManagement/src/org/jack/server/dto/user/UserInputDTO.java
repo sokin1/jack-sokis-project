@@ -1,33 +1,63 @@
 package org.jack.server.dto.user;
 
-public class UserInputDTO {
+import org.jack.server.dto.RequestData;
 
-	public int type;
-	public String email;
-	public String password;
-	public String name;
+/* category USER :
+	 * 		type SIGNUP :
+	 * 	data : {
+	 * 		name  	 : [name of new user],
+	 * 		email 	 : [email address of new user(require validity check)],
+	 * 		password : [password(password check is done in client's side)]
+	 *  }
+	 *  	type Login :
+	 *   data : {
+	 *   	email	 : [],
+	 *   	password : []
+	 *   }
+	 *   	type Logout :
+	 *   data : {
+	 *   	email	 : []
+	 *   }
+	 *   	type remove :
+	 *   data : {
+	 *   	name	 : [],
+	 *   	email	 : [],
+	 *   	password : []
+	 *   }
+	 */
+public class UserInputDTO extends RequestData {
+
+	private String email = "";
+	private String password = "";
+	private String name = "";
 	
 	// For signup
-	public UserInputDTO( int type, String email, String password, String name ) {
-		this.type = type;
+	public UserInputDTO( String email, String password, String name ) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
 	}
 	
 	// For login, retrieve information, and update information
-	public UserInputDTO( int type, String email, String password ) {
-		this.type = type;
+	public UserInputDTO( String email, String password ) {
 		this.email = email;
 		this.password = password;
-		this.name = "";
 	}
 	
 	// For logout
-	public UserInputDTO( int type, String email ) {
-		this.type = type;
+	public UserInputDTO( String email ) {
 		this.email = email;
-		this.password = "";
-		this.name = "";
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
