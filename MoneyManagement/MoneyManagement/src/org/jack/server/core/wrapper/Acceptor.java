@@ -8,8 +8,8 @@ import org.jack.server.controller.message.MoneyInfoControlMessage;
 import org.jack.server.controller.message.MoneyPlanControlMessage;
 import org.jack.server.controller.message.ResponseControlMessage;
 import org.jack.server.controller.message.UserControlMessage;
-import org.jack.server.dto.InMessage;
-import org.jack.server.dto.OutMessage;
+import org.jack.server.dto.request.InMessage;
+import org.jack.server.dto.response.OutMessage;
 
 public class Acceptor {
 

@@ -1,4 +1,4 @@
-package org.jack.server.dto;
+package org.jack.server.dto.response;
 
 public class ResponseMessage {
 

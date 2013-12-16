@@ -1,6 +1,6 @@
 package org.jack.server.dto.user;
 
-import org.jack.server.dto.RequestData;
+import org.jack.server.dto.request.RequestData;
 
 /* category USER :
 	 * 		type SIGNUP :
