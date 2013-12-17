@@ -2,6 +2,8 @@ package org.jack.client.ui.table;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 
@@ -18,13 +20,43 @@ import org.jack.client.model.table.MoneyFlowTableModel;
 
 public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 
+	private static int ROWHEIGHT = 64;
+	private static int HEADERHEIGHT = 32;
+	private static int DATEWIDTH = 80;
+	private static int DESCWIDTH = 560;
+	private static int AMOUNTWIDTH = 160;
+	private static int FONTSIZEAMOUNT = 84;
+	private static int FONTSIZEDESC = 24;
+	private static int FONTSIZEDATE = 12;
+
+	private static int COLNUM = 3;
+
+	private static int DATECOLUMN = 0;
+	private static int DESCCOLUMN = 1;
+	private static int AMOUNTCOLUMN = 2;
+
 	private JPanel topPanel;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private static Font customFont = null;
 
 	public MoneyFlowTableUI() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		try{
+			customFont = Font.createFont( Font.TRUETYPE_FONT, MoneyFlowTableUI.class.getResourceAsStream( "../../resource/font/bistro.ttf" ) ).deriveFont( 24 );
+			ge.registerFont( Font.createFont( Font.TRUETYPE_FONT, MoneyFlowTableUI.class.getResourceAsStream( "../../resource/font/bistro.ttf" ) ) );
+		} catch( IOException e ) {
+			e.printStackTrace();
+		} catch( FontFormatException e ) {
+			e.printStackTrace();
+		}
+
+		initializeUI();
+	}
+
+	public void initializeUI() {
 		setTitle( "Simple Table Application" );
-		setSize( 300, 200 );
+		setSize( 800, 600 );
 		setBackground( Color.gray );
 
 		topPanel = new JPanel();
@@ -33,21 +65,30 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 
 		table = new JTable( new MoneyFlowTableModel() );
 
-		TableColumn column = null;
-		column = table.getColumnModel().getColumn( 0 );
-		column.setPreferredWidth( 80 );
-		column = table.getColumnModel().getColumn( 1 );
-		column.setPreferredWidth( 200 );
-		column = table.getColumnModel().getColumn( 2 );
-		column.setPreferredWidth( 50 );
+		initTableHeader();
+		initTableCells();
 
-		table.setDefaultRenderer( Date.class, new DateRenderer() );
-		table.setDefaultRenderer( Integer.class, new IntegerRenderer() );
-		table.getModel().addTableModelListener( this);
+		table.getModel().addTableModelListener( this );
 
-//		table.getTableHeader().setDefaultRenderer( new TableHeaderRenderer() );
 		scrollPane = new JScrollPane( table );
 		topPanel.add( scrollPane, BorderLayout.CENTER );
+	}
+
+	public void initTableHeader() {
+		table.getTableHeader().setDefaultRenderer( new TableHeaderRenderer() );
+		table.getTableHeader().setPreferredSize( new Dimension( 800, HEADERHEIGHT ) );
+	}
+
+	public void initTableCells() {
+		table.getColumnModel().getColumn(DATECOLUMN).setPreferredWidth( DATEWIDTH );
+		table.getColumnModel().getColumn(DESCCOLUMN).setPreferredWidth( DESCWIDTH );
+		table.getColumnModel().getColumn(AMOUNTCOLUMN).setPreferredWidth( AMOUNTWIDTH );
+
+		table.getColumnModel().getColumn(DATECOLUMN).setCellRenderer( new DateRenderer() );
+		table.getColumnModel().getColumn(DESCCOLUMN).setCellRenderer( new StringRenderer() );
+		table.getColumnModel().getColumn(AMOUNTCOLUMN).setCellRenderer( new IntegerRenderer() );
+
+		table.setRowHeight( ROWHEIGHT );
 	}
 
 	public void tableChanged( TableModelEvent e ) {
@@ -66,20 +107,6 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 		launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 
-	public class TableBodyRenderer extends JLabel implements TableCellRenderer {
-
-		public TableBodyRenderer() {
-		}
-
-		public Component getTableCellRendererComponent (
-								JTable table, Object object,
-								boolean isSelected, boolean hasFocus,
-								int row, int column ) {
-			setBackground( Color.blue );
-			return this;
-		}
-	}
-
 	public class TableHeaderRenderer extends JLabel implements TableCellRenderer {
 
 		public TableHeaderRenderer() {
@@ -90,35 +117,58 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 								JTable table, Object object,
 								boolean isSelected, boolean hasFocus,
 								int row, int column ) {
-			setText( (String)table.getValueAt( 0, column ) );
+			setText( object.toString() );
 			setBackground( Color.YELLOW );
+			setHorizontalAlignment( SwingConstants.CENTER );
+			setFont( new Font( "Microsoft JhenHei", Font.BOLD, 24 ) );
 			return this;
 		}
 	}
-	
+
 	static class DateRenderer extends DefaultTableCellRenderer {
+
 		DateFormat formatter;
 		public DateRenderer() { super(); }
-		
+
 		public void setValue( Object value ) {
 			if( formatter == null ) {
 				formatter = DateFormat.getDateInstance();
 			}
+
+			Date today = new Date( System.currentTimeMillis() );
+			if( formatter.format( today ).equals( formatter.format( value ) ) ) {
+				setForeground( Color.CYAN );
+			} else {
+				setForeground( Color.WHITE );
+			}
+
 			setText( ( value == null ) ? "" : formatter.format( value ) );
 		}
 	}
-	
+
 	static class IntegerRenderer extends DefaultTableCellRenderer {
 
 		public IntegerRenderer() { super(); }
 
 		public void setValue( Object value ) {
 			if( (Integer)value < 0 ) {
-				setText( "-" + value );
-				setBackground( Color.RED );
+				setForeground( Color.RED );
+				setText( value.toString() );
 			} else {
-				setText( (String)value );
+				setForeground( Color.GREEN );
+				setText( value.toString() );
 			}
+			setFont( new Font( "Microsoft JhenHei", Font.BOLD, 84 ) );
+		}
+	}
+
+	static class StringRenderer extends DefaultTableCellRenderer {
+
+		public StringRenderer() { super(); }
+
+		public void setValue( Object value ) {
+			setFont( customFont );
+			setText( value.toString() );
 		}
 	}
 }
