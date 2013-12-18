@@ -4,15 +4,17 @@ import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.jack.client.ui.table.MoneyFlowTableUI;
+
 public class MoneyFlowTableModel extends AbstractTableModel {
 
-	private String[] columnNames = { "Date", "Description", "Amount" };
+	private String[] columnNames = { "", MoneyFlowTableUI.DATE, MoneyFlowTableUI.DESCRIPTION, MoneyFlowTableUI.AMOUNT };
 	private Object[][] data = {
-			{ new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 5 ) },
-			{ new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 3 ) },
-		    { new Date( System.currentTimeMillis() ), new String( "expense" ), new Integer( -2 ) },
-		    { new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 20 ) },
-		    { new Date( System.currentTimeMillis() ), new String( "expense" ), new Integer( -10 ) }
+			{ new Object(), new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 5 ) },
+			{ new Object(), new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 3 ) },
+		    { new Object(), new Date( System.currentTimeMillis() ), new String( "expense" ), new Integer( -2 ) },
+		    { new Object(), new Date( System.currentTimeMillis() ), new String( "earn" ), new Integer( 20 ) },
+		    { new Object(), new Date( System.currentTimeMillis() ), new String( "expense" ), new Integer( -10 ) }
 	};
 
 	public int getColumnCount() {
@@ -36,7 +38,17 @@ public class MoneyFlowTableModel extends AbstractTableModel {
 	}
 
 	public void setValueAt( Object value, int row, int col ) {
-		data[row][col] = value;
+		if( col == MoneyFlowTableUI.AMOUNTCOLUMN ) {
+			String strValue = (String)value;
+			int intValue = Integer.parseInt( strValue );
+			data[row][col] = intValue;
+		} else if ( col == MoneyFlowTableUI.DESCCOLUMN ) {
+			data[row][col] = value;
+		} else {
+			// TODO : handle the case for Date
+			data[row][col] = value;
+		}
+
 		fireTableCellUpdated( row, col );
 	}
 	
