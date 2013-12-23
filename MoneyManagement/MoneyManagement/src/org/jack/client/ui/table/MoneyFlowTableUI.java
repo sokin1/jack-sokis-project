@@ -46,6 +46,12 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 	private JPanel topPanel;
 	private JTable table;
 	private JScrollPane scrollPane;
+	
+	public static void main( String args[] ) {
+		MoneyFlowTableUI launcher = new MoneyFlowTableUI();
+		launcher.setVisible( true );
+		launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+	}
 
 	public MoneyFlowTableUI() {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -108,12 +114,6 @@ public class MoneyFlowTableUI extends JFrame implements TableModelListener {
 		Object data = model.getValueAt( row,  column );
 
 		System.out.println( data.toString() );
-	}
-
-	public static void main( String args[] ) {
-		MoneyFlowTableUI launcher = new MoneyFlowTableUI();
-		launcher.setVisible( true );
-		launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 
 	public class TableHeaderRenderer extends JLabel implements TableCellRenderer {
